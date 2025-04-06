@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Gender List</title>
-</head>
-<body>
-    <h1>Gender List</h1>
+@extends('layouts.app')
+
+@section('content')
+    <h1>All Genders</h1>
+    <a href="{{ route('genders.create') }}">Create New Gender</a>
     <ul>
         @foreach ($genders as $gender)
-            <li>{{ $gender->name }}</li>
+            <li><a href="{{ route('genders.show', $gender) }}">{{ $gender->name }}</a></li>
         @endforeach
     </ul>
-</body>
-</html>
+@endsection
