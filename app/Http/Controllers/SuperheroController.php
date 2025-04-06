@@ -22,12 +22,11 @@ class SuperheroController extends Controller
         return view('superheroes.create', compact('genders', 'universes'));
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
-            'hero_name' => 'required|string|max:255',
-            'real_name' => 'required|string|max:255',
+            'hero_name' => 'required|string',
+            'real_name' => 'required|string',
             'gender_id' => 'required|exists:genders,id',
             'universe_id' => 'required|exists:universes,id',
             'description' => 'nullable|string',
@@ -43,5 +42,33 @@ class SuperheroController extends Controller
     {
         return view('superheroes.show', compact('superhero'));
     }
-}
 
+    public function edit(Superhero $superhero)
+    {
+        $genders = Gender::all();
+        $universes = Universe::all();
+        return view('superheroes.edit', compact('superhero', 'genders', 'universes'));
+    }
+
+    public function update(Request $request, Superhero $superhero)
+    {
+        $request->validate([
+            'hero_name' => 'required|string',
+            'real_name' => 'required|string',
+            'gender_id' => 'required|exists:genders,id',
+            'universe_id' => 'required|exists:universes,id',
+            'description' => 'nullable|string',
+            'image_path' => 'nullable|string',
+        ]);
+
+        $superhero->update($request->all());
+
+        return redirect()->route('superheroes.index');
+    }
+
+    public function destroy(Superhero $superhero)
+    {
+        $superhero->delete();
+        return redirect()->route('superheroes.index');
+    }
+}

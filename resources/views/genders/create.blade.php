@@ -2,11 +2,10 @@
 
 @section('content')
     <h1>Create Gender</h1>
-
-    <form method="POST" action="{{ route('genders.store') }}">
+    <form action="{{ route('genders.store') }}" method="POST">
         @csrf
-        <label for="name">Gender Name:</label>
-        <input type="text" name="name" id="name" required>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
         <button type="submit">Create Gender</button>
     </form>
 @endsection

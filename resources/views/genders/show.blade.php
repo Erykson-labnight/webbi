@@ -2,6 +2,11 @@
 
 @section('content')
     <h1>{{ $gender->name }}</h1>
-    <p>Created at: {{ $gender->created_at }}</p>
-    <p>Updated at: {{ $gender->updated_at }}</p>
+    <p>Here you can view all details of the gender.</p>
+    <a href="{{ route('genders.edit', $gender->id) }}">Edit Gender</a>
+    <form action="{{ route('genders.destroy', $gender->id) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+        <button type="submit">Delete Gender</button>
+    </form>
 @endsection

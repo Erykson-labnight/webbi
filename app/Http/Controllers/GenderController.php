@@ -21,7 +21,7 @@ class GenderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|unique:genders',
         ]);
 
         Gender::create($request->all());
@@ -33,6 +33,27 @@ class GenderController extends Controller
     {
         return view('genders.show', compact('gender'));
     }
+
+    public function edit(Gender $gender)
+    {
+        return view('genders.edit', compact('gender'));
+    }
+
+    public function update(Request $request, Gender $gender)
+    {
+        $request->validate([
+            'name' => 'required|unique:genders,name,' . $gender->id,
+        ]);
+
+        $gender->update($request->all());
+
+        return redirect()->route('genders.index');
+    }
+
+    public function destroy(Gender $gender)
+    {
+        $gender->delete();
+
+        return redirect()->route('genders.index');
+    }
 }
-
-

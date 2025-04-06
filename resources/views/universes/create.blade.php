@@ -2,11 +2,10 @@
 
 @section('content')
     <h1>Create Universe</h1>
-
-    <form method="POST" action="{{ route('universes.store') }}">
+    <form action="{{ route('universes.store') }}" method="POST">
         @csrf
-        <label for="name">Universe Name:</label>
-        <input type="text" name="name" id="name" required>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
         <button type="submit">Create Universe</button>
     </form>
 @endsection

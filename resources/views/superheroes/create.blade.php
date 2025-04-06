@@ -2,35 +2,41 @@
 
 @section('content')
     <h1>Create Superhero</h1>
-
-    <form method="POST" action="{{ route('superheroes.store') }}">
+    <form action="{{ route('superheroes.store') }}" method="POST">
         @csrf
-        <label for="hero_name">Hero Name:</label>
-        <input type="text" name="hero_name" id="hero_name" required>
+        <div class="form-group">
+            <label for="hero_name">Hero Name</label>
+            <input type="text" name="hero_name" id="hero_name" class="form-control" required>
+        </div>
 
-        <label for="real_name">Real Name:</label>
-        <input type="text" name="real_name" id="real_name" required>
+        <div class="form-group">
+            <label for="real_name">Real Name</label>
+            <input type="text" name="real_name" id="real_name" class="form-control" required>
+        </div>
 
-        <label for="gender_id">Gender:</label>
-        <select name="gender_id" id="gender_id" required>
-            @foreach ($genders as $gender)
-                <option value="{{ $gender->id }}">{{ $gender->name }}</option>
-            @endforeach
-        </select>
+        <div class="form-group">
+            <label for="gender_id">Gender</label>
+            <select name="gender_id" id="gender_id" class="form-control" required>
+                @foreach ($genders as $gender)
+                    <option value="{{ $gender->id }}">{{ $gender->name }}</option>
+                @endforeach
+            </select>
+        </div>
 
-        <label for="universe_id">Universe:</label>
-        <select name="universe_id" id="universe_id" required>
-            @foreach ($universes as $universe)
-                <option value="{{ $universe->id }}">{{ $universe->name }}</option>
-            @endforeach
-        </select>
+        <div class="form-group">
+            <label for="universe_id">Universe</label>
+            <select name="universe_id" id="universe_id" class="form-control" required>
+                @foreach ($universes as $universe)
+                    <option value="{{ $universe->id }}">{{ $universe->name }}</option>
+                @endforeach
+            </select>
+        </div>
 
-        <label for="description">Description:</label>
-        <textarea name="description" id="description"></textarea>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" class="form-control"></textarea>
+        </div>
 
-        <label for="image_path">Image URL:</label>
-        <input type="text" name="image_path" id="image_path">
-
-        <button type="submit">Create Superhero</button>
+        <button type="submit" class="btn btn-primary">Create Superhero</button>
     </form>
 @endsection
