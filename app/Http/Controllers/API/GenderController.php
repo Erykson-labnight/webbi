@@ -1,44 +1,38 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Gender;
 use Illuminate\Http\Request;
 
 class GenderController extends Controller
 {
+    // Mostrar todos los géneros
     public function index()
     {
-        $genders = Gender::all();
-        return view('genders.index', compact('genders'));
+        return response()->json(Gender::all());
     }
 
-    public function create()
+    // Mostrar un género específico
+    public function show(Gender $gender)
     {
-        return view('genders.create');
+        return response()->json($gender);
     }
 
+    // Crear un nuevo género
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|unique:genders',
         ]);
 
-        Gender::create($request->all());
+        $gender = Gender::create($request->all());
 
-        return redirect()->route('genders.index');
+        return response()->json($gender, 201);  
     }
 
-    public function show(Gender $gender)
-    {
-        return view('genders.show', compact('gender'));
-    }
-
-    public function edit(Gender $gender)
-    {
-        return view('genders.edit', compact('gender'));
-    }
-
+    // Actualizar un género específico
     public function update(Request $request, Gender $gender)
     {
         $request->validate([
@@ -47,13 +41,14 @@ class GenderController extends Controller
 
         $gender->update($request->all());
 
-        return redirect()->route('genders.index');
+        return response()->json($gender);
     }
 
+    // Eliminar un género específico
     public function destroy(Gender $gender)
     {
         $gender->delete();
 
-        return redirect()->route('genders.index');
+        return response()->json(['message' => 'Gender deleted successfully']);
     }
 }

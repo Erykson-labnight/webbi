@@ -1,7 +1,7 @@
 <?php
+namespace App\Http\Controllers\API;
 
-namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use App\Models\Superhero;
 use App\Models\Gender;
 use App\Models\Universe;
@@ -9,19 +9,19 @@ use Illuminate\Http\Request;
 
 class SuperheroController extends Controller
 {
+    // Mostrar todos los superhéroes
     public function index()
     {
-        $superheroes = Superhero::all();
-        return view('superheroes.index', compact('superheroes'));
+        return response()->json(Superhero::all());
     }
 
-    public function create()
+    // Mostrar un superhéroe específico
+    public function show(Superhero $superhero)
     {
-        $genders = Gender::all();
-        $universes = Universe::all();
-        return view('superheroes.create', compact('genders', 'universes'));
+        return response()->json($superhero);
     }
 
+    // Crear un nuevo superhéroe
     public function store(Request $request)
     {
         $request->validate([
@@ -33,23 +33,12 @@ class SuperheroController extends Controller
             'image_path' => 'nullable|string',
         ]);
 
-        Superhero::create($request->all());
+        $superhero = Superhero::create($request->all());
 
-        return redirect()->route('superheroes.index');
+        return response()->json($superhero, 201);  
     }
 
-    public function show(Superhero $superhero)
-    {
-        return view('superheroes.show', compact('superhero'));
-    }
-
-    public function edit(Superhero $superhero)
-    {
-        $genders = Gender::all();
-        $universes = Universe::all();
-        return view('superheroes.edit', compact('superhero', 'genders', 'universes'));
-    }
-
+    // Actualizar un superhéroe específico
     public function update(Request $request, Superhero $superhero)
     {
         $request->validate([
@@ -63,12 +52,14 @@ class SuperheroController extends Controller
 
         $superhero->update($request->all());
 
-        return redirect()->route('superheroes.index');
+        return response()->json($superhero);
     }
 
+    // Eliminar un superhéroe específico
     public function destroy(Superhero $superhero)
     {
         $superhero->delete();
-        return redirect()->route('superheroes.index');
+
+        return response()->json(['message' => 'Superhero deleted successfully']);
     }
 }

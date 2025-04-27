@@ -1,44 +1,37 @@
 <?php
+namespace App\Http\Controllers\API;
 
-namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use App\Models\Universe;
 use Illuminate\Http\Request;
 
 class UniverseController extends Controller
 {
+    // Mostrar todos los universos
     public function index()
     {
-        $universes = Universe::all();
-        return view('universes.index', compact('universes'));
+        return response()->json(Universe::all());
     }
 
-    public function create()
+    // Mostrar un universo específico
+    public function show(Universe $universe)
     {
-        return view('universes.create');
+        return response()->json($universe);
     }
 
+    // Crear un nuevo universo
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|unique:universes',
         ]);
 
-        Universe::create($request->all());
+        $universe = Universe::create($request->all());
 
-        return redirect()->route('universes.index');
+        return response()->json($universe, 201); 
     }
 
-    public function show(Universe $universe)
-    {
-        return view('universes.show', compact('universe'));
-    }
-
-    public function edit(Universe $universe)
-    {
-        return view('universes.edit', compact('universe'));
-    }
-
+    // Actualizar un universo específico
     public function update(Request $request, Universe $universe)
     {
         $request->validate([
@@ -47,13 +40,14 @@ class UniverseController extends Controller
 
         $universe->update($request->all());
 
-        return redirect()->route('universes.index');
+        return response()->json($universe);
     }
 
+    // Eliminar un universo específico
     public function destroy(Universe $universe)
     {
         $universe->delete();
 
-        return redirect()->route('universes.index');
+        return response()->json(['message' => 'Universe deleted successfully']);
     }
 }

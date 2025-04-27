@@ -30,6 +30,30 @@ return new class extends Migration
             $table->string('image_path')->nullable();
             $table->timestamps();
         });
+
+        // Tabla de poderes
+        Schema::create('powers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();  
+            $table->text('description')->nullable();  
+            $table->timestamps();
+        });
+
+        // Tabla de equipos
+        Schema::create('teams', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique(); 
+            $table->text('description')->nullable(); 
+            $table->timestamps();
+        });
+
+        // Tabla de enemigos
+        Schema::create('enemies', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();  
+            $table->text('description')->nullable();  
+            $table->timestamps();
+        });
     }
 
     public function down(): void
